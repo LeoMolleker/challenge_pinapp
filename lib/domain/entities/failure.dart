@@ -27,3 +27,10 @@ class CommentsFailure extends Failure {
     description: AppLabels.failedCommentsDescription,
   );
 }
+
+class LikeFailure extends Failure {
+  LikeFailure()
+      : super(
+    title: AppLabels.likeError,
+  );
+}

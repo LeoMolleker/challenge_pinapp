@@ -6,12 +6,10 @@ import '../worker.dart';
 import 'detail_state.dart';
 
 class DetailBloc extends Cubit<DetailState> {
-  DetailBloc({
-    required GetPostCommentsUseCase getPostCommentsUseCase,
-    required LikeCommentUseCase likeCommentUseCase,
-  }) : _getPostCommentsUseCase = getPostCommentsUseCase,
-       _likeCommentUseCase = likeCommentUseCase,
-       super(DetailState());
+  DetailBloc({required GetPostCommentsUseCase getPostCommentsUseCase, required LikeCommentUseCase likeCommentUseCase})
+    : _getPostCommentsUseCase = getPostCommentsUseCase,
+      _likeCommentUseCase = likeCommentUseCase,
+      super(DetailState());
 
   final GetPostCommentsUseCase _getPostCommentsUseCase;
   final LikeCommentUseCase _likeCommentUseCase;
@@ -26,10 +24,11 @@ class DetailBloc extends Cubit<DetailState> {
   }
 
   Future<void> likePost(int postId) async {
-    emit(state.copyWith(likeStatus: LikeStatus.loading));
+    emit(state.copyWith(like: Loading()));
     final result = await _likeCommentUseCase.execute(postId);
-    result
-        ? emit(state.copyWith(likeStatus: LikeStatus.success))
-        : emit(state.copyWith(likeStatus: LikeStatus.failure));
+    result.fold(
+      ifLeft: (failure) => emit(state.copyWith(like: Error(failure))),
+      ifRight: (liked) => emit(state.copyWith(like: Success(liked))),
+    );
   }
 }

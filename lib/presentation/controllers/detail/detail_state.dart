@@ -3,24 +3,22 @@ import 'package:equatable/equatable.dart';
 
 import '../../../domain/entities/comment.dart';
 
-enum LikeStatus { initial, loading, success, failure }
-
 class DetailState extends Equatable {
-  const DetailState({this.comments = const Loading(), this.likeStatus = LikeStatus.initial});
+  const DetailState({this.comments = const Loading(), this.like = const Loading()});
 
   final Worker<List<Comment>> comments;
-  final LikeStatus likeStatus;
+  final Worker<bool> like;
 
   DetailState copyWith({
     Worker<List<Comment>>? comments,
-    LikeStatus? likeStatus,
+    Worker<bool>? like,
   }) {
     return DetailState(
       comments: comments ?? this.comments,
-      likeStatus: likeStatus ?? this.likeStatus,
+      like: like ?? this.like,
     );
   }
 
   @override
-  List<Object?> get props => [comments, likeStatus];
+  List<Object?> get props => [comments, like];
 }

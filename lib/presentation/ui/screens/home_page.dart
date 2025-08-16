@@ -9,7 +9,6 @@ import 'package:challenge_pinapp/presentation/ui/widgets/post_card.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-
 import '../../controllers/home/home_bloc_controller.dart';
 import '../../controllers/home/home_state.dart';
 import '../core/constants/app_dimensions.dart';
@@ -31,24 +30,26 @@ class _HomePageState extends State<HomePage> {
     unawaited(context.read<HomeBloc>().getPosts());
     super.initState();
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        centerTitle: true,
-        title: Text('Posts', style: context.titleLargeTheme?.black.bold),
-      ),
+      appBar: AppBar(centerTitle: true, title: Text('Posts', style: context.titleLargeTheme?.black.bold)),
       body: BlocBuilder<HomeBloc, HomeState>(
         buildWhen: (previous, current) =>
-            previous.posts != current.posts ||
-            previous.searchValue != current.searchValue,
+            previous.posts != current.posts || previous.searchValue != current.searchValue,
         builder: (context, state) => switch (state.posts) {
           Success<List<Post>>() => () {
+            if (state.posts.value?.isEmpty == true) {
+              return ResultIndicator.empty(
+                title: UiLabels.emptyPostsTitle,
+                description: UiLabels.emptyPostDescription,
+                button: _retryButton(context),
+              );
+            }
             final posts = state.filteredPosts();
             return Padding(
-              padding: const EdgeInsets.symmetric(
-                horizontal: AppDimensions.spaceXLarge,
-              ),
+              padding: const EdgeInsets.symmetric(horizontal: AppDimensions.spaceXLarge),
               child: Column(
                 spacing: AppDimensions.spaceLarge,
                 children: [
@@ -66,17 +67,14 @@ class _HomePageState extends State<HomePage> {
                           child: Center(
                             child: ResultIndicator.empty(
                               title: UiLabels.emptySearchPostsTitle,
-                              description:
-                                  UiLabels.emptySearchPostDescription,
+                              description: UiLabels.emptySearchPostDescription,
                             ),
                           ),
                         )
                       : Expanded(
                           child: ListView.builder(
                             itemBuilder: (context, index) => Padding(
-                              padding: const EdgeInsets.only(
-                                top: AppDimensions.spaceLarge,
-                              ),
+                              padding: const EdgeInsets.only(top: AppDimensions.spaceLarge),
                               child: PostCard(post: posts[index]),
                             ),
                             itemCount: posts.length,
@@ -87,9 +85,7 @@ class _HomePageState extends State<HomePage> {
             );
           }(),
 
-          Loading<List<Post>>() => LoadingIndicator(
-            message: UiLabels.loadingPosts,
-          ),
+          Loading<List<Post>>() => LoadingIndicator(message: UiLabels.loadingPosts),
 
           Error<List<Post>>() => ResultIndicator.error(
             title: state.posts.error!.title,
@@ -101,8 +97,6 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-  ButtonContent _retryButton(BuildContext context) => ButtonContent(
-    onPressed: () => context.read<HomeBloc>().getPosts(),
-    text: UiLabels.retryLabel,
-  );
+  ButtonContent _retryButton(BuildContext context) =>
+      ButtonContent(onPressed: () => context.read<HomeBloc>().getPosts(), text: UiLabels.retryLabel);
 }

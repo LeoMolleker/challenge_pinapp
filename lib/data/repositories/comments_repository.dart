@@ -16,8 +16,8 @@ class CommentsRepository extends ICommentsRepository {
     try{
       final comments = await _commentsRemoteDataSource.getPostComments(postId);
       return Right(CommentMapper.toEntityList(comments));
-    }on Failure catch(e){
-      return Left(e);
+    }catch(e){
+      return Left(CommentsFailure());
     }
   }
 }

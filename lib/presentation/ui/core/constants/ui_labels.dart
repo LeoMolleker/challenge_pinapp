@@ -12,6 +12,5 @@ abstract class UiLabels {
   static const loadingPosts = 'Loading posts...';
   static const loadingComments = 'Loading comments...';
   static const searchBarHint = 'Search posts';
-  static const likeError = 'Something went wrong while liking the post, please try again.';
   static const likeSuccess = 'Post liked successfully.';
 }
