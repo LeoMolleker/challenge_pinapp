@@ -7,54 +7,106 @@ import 'package:challenge_pinapp/presentation/controllers/home/home_bloc_control
 import 'package:comments_plugin/comments_plugin.dart';
 import 'package:dio/dio.dart';
 import 'package:get_it/get_it.dart';
+import 'package:sqflite/sqflite.dart';
+import 'package:path/path.dart';
 
+import '../data/data_sources/interfaces/i_posts_local_data_source.dart';
+import '../data/data_sources/locaL_data_sources/posts_local_data_source.dart';
 import '../data/data_sources/remote_data_sources/comments_remote_data_source.dart';
 import '../data/data_sources/remote_data_sources/post_remote_data_source.dart';
 import '../data/repositories/comments_repository.dart';
 import '../data/repositories/post_repository.dart';
 import '../data/data_sources/interfaces/i_post_remote_data_source.dart';
+import '../domain/use_cases/like_comment_use_case.dart';
 import '../presentation/controllers/detail/detail_bloc_controller.dart';
 
 abstract class Injector {
-
   static T get<T extends Object>() => GetIt.I<T>();
 
-  static void setUp() {
-    final getIt = GetIt.I;
-    getIt.registerLazySingleton<Dio>(
-      () => Dio(
-        BaseOptions(
-          baseUrl: 'https://jsonplaceholder.typicode.com',
-          connectTimeout: Duration(seconds: 15),
-        ),
+  static Future<void> setUp() async {
+    //Dio
+    GetIt.I.registerLazySingleton<Dio>(
+      () {
+        final dio = Dio(
+          BaseOptions(
+            baseUrl: 'https://jsonplaceholder.typicode.com',
+            connectTimeout: Duration(seconds: 15),
+          ),
+        );
+
+        //Workaround para evitar los bloqueos constantes de la api
+        dio.options.headers = {
+          'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/127.0.0.0 Safari/537.36',
+          'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7',
+          'Accept-Language': 'en-US,en;q=0.9',
+          'Accept-Encoding': 'gzip, deflate, br, zstd',
+          'Connection': 'keep-alive',
+        };
+
+        return dio;
+      }
+    );
+
+    //Database
+    final database = await openDatabase(
+      join(await getDatabasesPath(), 'favorites.db'),
+
+      onCreate: (db, version) {
+        return db.execute(
+          'CREATE TABLE favorites(id INTEGER PRIMARY KEY, likes INTEGER)',
+        );
+      },
+      version: 1,
+    );
+    GetIt.I.registerLazySingleton<Database>(() => database);
+
+    //Plugins
+    GetIt.I.registerLazySingleton<CommentsPlugin>(() => CommentsPlugin());
+
+    //Local data sources
+    GetIt.I.registerLazySingleton<IPostsLocalDataSource>(
+      () => PostsLocalDataSource(GetIt.I<Database>()),
+    );
+
+    //Remote data sources
+    GetIt.I.registerLazySingleton<IPostRemoteDataSource>(
+      () => PostRemoteDataSource(GetIt.I<Dio>()),
+    );
+    GetIt.I.registerLazySingleton<ICommentsRemoteDataSource>(
+      () => CommentsRemoteDataSource(GetIt.I<CommentsPlugin>()),
+    );
+
+    //Repositories
+    GetIt.I.registerLazySingleton<IPostRepository>(
+      () => PostRepository(
+        postRemoteDataSource: GetIt.I<IPostRemoteDataSource>(),
+        postsLocalDataSource: GetIt.I<IPostsLocalDataSource>(),
       ),
     );
-    getIt.registerLazySingleton<CommentsPlugin>(
-          () => CommentsPlugin(),
+    GetIt.I.registerLazySingleton<ICommentsRepository>(
+      () => CommentsRepository(GetIt.I<ICommentsRemoteDataSource>()),
     );
-    getIt.registerLazySingleton<IPostRemoteDataSource>(
-      () => PostRemoteDataSource(getIt<Dio>()),
+
+    //Use cases
+    GetIt.I.registerLazySingleton<GetPostUseCase>(
+      () => GetPostUseCase(GetIt.I<IPostRepository>()),
     );
-    getIt.registerLazySingleton<ICommentsRemoteDataSource>(
-          () => CommentsRemoteDataSource(getIt<CommentsPlugin>()),
+    GetIt.I.registerLazySingleton<GetPostCommentsUseCase>(
+      () => GetPostCommentsUseCase(GetIt.I<ICommentsRepository>()),
     );
-    getIt.registerLazySingleton<IPostRepository>(
-      () => PostRepository(getIt<IPostRemoteDataSource>()),
+    GetIt.I.registerLazySingleton<LikeCommentUseCase>(
+      () => LikeCommentUseCase(GetIt.I<IPostRepository>()),
     );
-    getIt.registerLazySingleton<ICommentsRepository>(
-          () => CommentsRepository(getIt<ICommentsRemoteDataSource>()),
+
+    //Blocs
+    GetIt.I.registerLazySingleton<HomeBloc>(
+      () => HomeBloc(GetIt.I<GetPostUseCase>()),
     );
-    getIt.registerFactory<GetPostUseCase>(
-      () => GetPostUseCase(getIt<IPostRepository>()),
-    );
-    getIt.registerFactory<GetPostCommentsUseCase>(
-          () => GetPostCommentsUseCase(getIt<ICommentsRepository>()),
-    );
-    getIt.registerFactory<HomeBloc>(
-      () => HomeBloc(getIt<GetPostUseCase>()),
-    );
-    getIt.registerFactory<DetailBloc>(
-          () => DetailBloc(getIt<GetPostCommentsUseCase>()),
+    GetIt.I.registerFactory<DetailBloc>(
+      () => DetailBloc(
+        getPostCommentsUseCase: GetIt.I<GetPostCommentsUseCase>(),
+        likeCommentUseCase: GetIt.I<LikeCommentUseCase>(),
+      ),
     );
   }
 }

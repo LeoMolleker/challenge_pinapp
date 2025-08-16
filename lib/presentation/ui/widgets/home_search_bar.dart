@@ -1,10 +1,12 @@
-import 'package:challenge_pinapp/core/extensions/context_extension.dart';
-import 'package:challenge_pinapp/core/extensions/style_extension.dart';
+
+import 'package:challenge_pinapp/presentation/ui/core/extensions/context_extension.dart';
+import 'package:challenge_pinapp/presentation/ui/core/extensions/style_extension.dart';
 import 'package:flutter/material.dart';
 
-import '../../../core/colors.dart';
-import '../../../core/constants/app_dimensions.dart';
-import '../../../core/constants/ui_labels.dart';
+import '../core/colors.dart';
+import '../core/constants/app_dimensions.dart';
+import '../core/constants/ui_labels.dart';
+
 
 class HomeSearchBar extends StatefulWidget {
   const HomeSearchBar({

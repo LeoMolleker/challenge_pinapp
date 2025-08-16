@@ -9,4 +9,5 @@ abstract class AppDimensions {
 
   static const double iconResultIndicatorSize = 100.0;
   static const double postCardElevation = 5.0;
+  static const double likeButtonRad = 5.0;
 }

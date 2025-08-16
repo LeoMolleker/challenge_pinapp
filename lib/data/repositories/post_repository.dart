@@ -1,4 +1,4 @@
-
+import 'package:challenge_pinapp/data/data_sources/interfaces/i_posts_local_data_source.dart';
 import 'package:challenge_pinapp/data/mappers/post_mapper.dart';
 
 import 'package:challenge_pinapp/domain/entities/post.dart';
@@ -10,16 +10,29 @@ import '../../domain/repositories/i_post_repository.dart';
 
 class PostRepository extends IPostRepository {
   final IPostRemoteDataSource _postRemoteDataSource;
+  final IPostsLocalDataSource _postsLocalDataSource;
 
-  PostRepository(this._postRemoteDataSource);
+  PostRepository({
+    required IPostRemoteDataSource postRemoteDataSource,
+    required IPostsLocalDataSource postsLocalDataSource,
+  }) : _postRemoteDataSource = postRemoteDataSource,
+       _postsLocalDataSource = postsLocalDataSource;
 
   @override
   Future<Either<Failure, List<Post>>> getPosts() async {
     try {
       final posts = await _postRemoteDataSource.getPosts();
-      return Right(PostMapper.toEntityList(posts));
+      final likes = await _postsLocalDataSource.getLikeCounts(
+        posts.map((post) => post.id).toList(),
+      );
+      return Right(PostMapper.toEntityList(posts: posts, likes: likes));
     } on Failure catch (e) {
       return Left(e);
     }
+  }
+
+  @override
+  Future<bool> likeComment(int postId) {
+    return _postsLocalDataSource.likeComment(postId);
   }
 }

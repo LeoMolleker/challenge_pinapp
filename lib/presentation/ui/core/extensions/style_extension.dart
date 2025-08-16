@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../colors.dart';
 
+
 extension StyleExtension on TextStyle {
   TextStyle get secondary => copyWith(color: AppColors.grey);
 

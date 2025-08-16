@@ -15,14 +15,22 @@ class HomeBloc extends Cubit<HomeState> {
     final result = await _getPostUseCase.execute();
 
     result.fold(
-      ifLeft: (failure) =>
-          emit(state.copyWith(posts: Error<List<Post>>(failure))),
-      ifRight: (posts) =>
-          emit(state.copyWith(posts: Success<List<Post>>(posts))),
+      ifLeft: (failure) => emit(state.copyWith(posts: Error<List<Post>>(failure))),
+      ifRight: (posts) => emit(state.copyWith(posts: Success<List<Post>>(posts))),
     );
   }
 
   void getFilteredPosts(String value) {
     emit(state.copyWith(searchValue: value));
+  }
+
+  void updatePostsLikes(int postId) {
+    emit(
+      state.copyWith(
+        posts: Success<List<Post>>(
+          state.posts.value!.map((post) => post.id == postId ? post.copyWith(likes: post.likes! + 1) : post).toList(),
+        ),
+      ),
+    );
   }
 }

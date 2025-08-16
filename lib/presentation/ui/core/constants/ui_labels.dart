@@ -6,7 +6,12 @@ abstract class UiLabels {
   static const emptyCommentsTitle = 'No comments available';
   static const emptyCommentsDescription =
       'There are currently no comments to display. Check back later for updates.';
+  static const emptySearchPostsTitle = 'No posts match the search';
+  static const emptySearchPostDescription =
+      'Try looking for another word.';
   static const loadingPosts = 'Loading posts...';
   static const loadingComments = 'Loading comments...';
   static const searchBarHint = 'Search posts';
+  static const likeError = 'Something went wrong while liking the post, please try again.';
+  static const likeSuccess = 'Post liked successfully.';
 }
