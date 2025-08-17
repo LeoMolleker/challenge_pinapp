@@ -1,14 +1,10 @@
 import 'package:challenge_pinapp/domain/entities/comment.dart';
 import 'package:challenge_pinapp/domain/entities/failure.dart';
-import 'package:challenge_pinapp/domain/entities/post.dart';
 import 'package:challenge_pinapp/domain/use_cases/get_post_comments_use_case.dart';
 import 'package:challenge_pinapp/domain/use_cases/like_comment_use_case.dart';
 import 'package:challenge_pinapp/presentation/controllers/detail/detail_bloc_controller.dart';
-import 'package:challenge_pinapp/presentation/controllers/home/home_bloc_controller.dart';
 import 'package:challenge_pinapp/presentation/ui/screens/detail_page.dart';
-import 'package:challenge_pinapp/presentation/ui/screens/home_page.dart';
 import 'package:challenge_pinapp/presentation/ui/widgets/comment_card.dart';
-import 'package:challenge_pinapp/presentation/ui/widgets/post_card.dart';
 import 'package:challenge_pinapp/presentation/ui/widgets/result_indicator.dart';
 import 'package:dart_either/dart_either.dart';
 import 'package:flutter/material.dart';

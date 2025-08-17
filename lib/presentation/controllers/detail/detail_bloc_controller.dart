@@ -1,3 +1,4 @@
+import 'package:challenge_pinapp/domain/entities/failure.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../domain/use_cases/get_post_comments_use_case.dart';

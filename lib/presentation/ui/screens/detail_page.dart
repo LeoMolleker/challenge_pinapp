@@ -22,7 +22,7 @@ class DetailPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('Comments', style: context.titleLargeTheme?.black.bold), centerTitle: true),
+      appBar: AppBar(title: Text(UiLabels.commentAppBarTitle, style: context.titleLargeTheme?.black.bold), centerTitle: true),
       body: BlocListener<DetailBloc, DetailState>(
         listenWhen: (previous, current) =>
             (current.like.isSuccess || current.like.isError) && previous.like != current.like,

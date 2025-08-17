@@ -34,7 +34,7 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(centerTitle: true, title: Text('Posts', style: context.titleLargeTheme?.black.bold)),
+      appBar: AppBar(centerTitle: true, title: Text(UiLabels.postAppBarTitle, style: context.titleLargeTheme?.black.bold)),
       body: BlocBuilder<HomeBloc, HomeState>(
         buildWhen: (previous, current) =>
             previous.posts != current.posts || previous.searchValue != current.searchValue,

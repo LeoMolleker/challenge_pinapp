@@ -41,7 +41,9 @@ dependencies:
   google_fonts: ^6.3.0
   equatable: ^2.0.7
   comments_plugin:
-    path: ../comments_plugin
+    git:
+      url: https://github.com/LeoMolleker/plugin_challenge_pinapp.git
+      ref: main
   sqflite: ^2.4.2
   path: ^1.9.1
   mockito: ^5.5.0
