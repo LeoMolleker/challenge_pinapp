@@ -23,11 +23,14 @@ Esta página támbien ofrece la posibilidad de poder dar un "like" al post, el c
   * Librerías para pruebas unitarias. Facilitan la creación de mocks y el testeo de los cubits.
  
  ## Video funcionamiento de la app
-https://github.com/user-attachments/assets/d7bab3af-b95b-46dd-981e-37d5789bab91
+https://github.com/user-attachments/assets/cd956a8b-c6f4-4fe9-a402-a1b14707e08d
+
+
 
 ## Imagenes adicionales
-<img width="1080" height="2424" alt="Screenshot_1755478028" src="https://github.com/user-attachments/assets/bdaba327-3eb8-41ff-a878-3ffa32db42dc" />
-<img width="1080" height="2424" alt="Screenshot_1755458122" src="https://github.com/user-attachments/assets/cd94fb2d-6004-43d5-8599-122c02f16e75" />
-<img width="1080" height="2424" alt="Screenshot_1755458107" src="https://github.com/user-attachments/assets/98096df6-559b-4f05-9747-bd0233d30be7" />
-<img width="1080" height="2424" alt="Screenshot_1755457707" src="https://github.com/user-attachments/assets/4ac0d645-17a3-4fcc-9e7b-f77a830d3389" />
-<img width="1080" height="2424" alt="Screenshot_1755457689" src="https://github.com/user-attachments/assets/34fd80ef-88ef-4253-af07-1a2f0f860181" />
+<img width="512" height="2424" alt="Screenshot_1755484774" src="https://github.com/user-attachments/assets/3b9b17cb-95ba-47bc-8649-d29298ab588a" />
+<img width="512" height="2424" alt="Screenshot_1755458122" src="https://github.com/user-attachments/assets/4abca1a2-7e2d-424e-8762-e92399a16fa6" />
+<img width="512" height="2424" alt="Screenshot_1755458107" src="https://github.com/user-attachments/assets/bdd854a7-2bf4-4924-9404-931414ab3e35" />
+<img width="512" height="2424" alt="Screenshot_1755457707" src="https://github.com/user-attachments/assets/8a6051d1-d991-4d9a-a56b-c660fd693f4f" />
+<img width="512" height="2424" alt="Screenshot_1755457689" src="https://github.com/user-attachments/assets/8f50a352-cb61-45ed-8bd8-c1c2b79a0e67" />
+
