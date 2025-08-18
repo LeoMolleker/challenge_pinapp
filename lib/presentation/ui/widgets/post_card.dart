@@ -1,11 +1,9 @@
-
 import 'package:challenge_pinapp/presentation/controllers/home/home_bloc_controller.dart';
 import 'package:challenge_pinapp/presentation/controllers/home/home_state.dart';
 import 'package:challenge_pinapp/presentation/ui/core/extensions/context_extension.dart';
 import 'package:challenge_pinapp/presentation/ui/core/extensions/style_extension.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-
 
 import '../../../domain/entities/post.dart';
 import '../core/constants/app_dimensions.dart';
@@ -20,7 +18,7 @@ class PostCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        Navigator.pushNamed(context, RoutesNames.detail, arguments: post.id);
+        Navigator.pushNamed(context, RoutesNames.detail, arguments: {'postId': post.id, 'canLike': post.likes != null});
       },
       child: Card(
         color: Colors.white,

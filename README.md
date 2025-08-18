@@ -16,7 +16,7 @@ Esta página támbien ofrece la posibilidad de poder dar un "like" al post, el c
   * Simplifica la comparación de objetos y así ayudar a la gestión de estados.
 * **dio**
   * Librería para realizar peticiones HTTP. Elegido por sus caracteristicas como los interceptores, si bien no son utilizados en este caso, prepara la app para la escalabilidad.
-  * El siguiente header ```User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/127.0.0.0 Safari/537.36``` fue agregado para evitar los constantes bloqueaos de la API utilizada.
+  * El siguiente header ```User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/127.0.0.0 Safari/537.36``` fue agregado para evitar los constantes bloqueos de la API utilizada.
 * **sqflite**
   * Librería para el manejo de bases de datos, utilizado para la implementación de "likes" para almacenarlos en una fuente de datos local y estructurada
 * **mockito y bloc_test**

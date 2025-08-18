@@ -12,10 +12,12 @@ abstract class Routes {
     return <String, Widget Function(BuildContext)>{
       RoutesNames.home: (context) => const HomePage(),
       RoutesNames.detail: (context) {
-        final postId = ModalRoute.of(context)?.settings.arguments as int;
+        final arguments = ModalRoute.of(context)?.settings.arguments as Map<String, dynamic>;
+        final postId = arguments['postId'] as int;
+        final canLike = arguments['canLike'] as bool;
         return BlocProvider(
           create: (context) => Injector.get<DetailBloc>()..getPostComments(postId),
-          child: DetailPage(postId: postId),
+          child: DetailPage(postId: postId, canLike: canLike,),
         );
       },
     };

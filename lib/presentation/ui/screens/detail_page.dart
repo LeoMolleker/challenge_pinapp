@@ -15,14 +15,18 @@ import '../core/constants/app_dimensions.dart';
 import '../core/constants/ui_labels.dart';
 
 class DetailPage extends StatelessWidget {
-  const DetailPage({super.key, required this.postId});
+  const DetailPage({super.key, required this.postId, required this.canLike});
 
   final int postId;
+  final bool canLike;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text(UiLabels.commentAppBarTitle, style: context.titleLargeTheme?.black.bold), centerTitle: true),
+      appBar: AppBar(
+        title: Text(UiLabels.commentAppBarTitle, style: context.titleLargeTheme?.black.bold),
+        centerTitle: true,
+      ),
       body: BlocListener<DetailBloc, DetailState>(
         listenWhen: (previous, current) =>
             (current.like.isSuccess || current.like.isError) && previous.like != current.like,
@@ -65,20 +69,22 @@ class DetailPage extends StatelessWidget {
           },
         ),
       ),
-      floatingActionButton: BlocBuilder<DetailBloc, DetailState>(
-        buildWhen: (previous, current) => previous.comments != current.comments,
-        builder: (context, state) => (state.comments.isSuccess && state.comments.value?.isNotEmpty == true)
-            ? DecoratedBox(
-                decoration: BoxDecoration(color: Colors.blue, shape: BoxShape.circle),
-                child: IconButton(
-                  onPressed: () {
-                    context.read<DetailBloc>().likePost(postId);
-                  },
-                  icon: const Icon(Icons.favorite, color: Colors.red),
-                ),
-              )
-            : SizedBox.shrink(),
-      ),
+      floatingActionButton: canLike
+          ? BlocBuilder<DetailBloc, DetailState>(
+              buildWhen: (previous, current) => previous.comments != current.comments,
+              builder: (context, state) => (state.comments.isSuccess)
+                  ? DecoratedBox(
+                      decoration: BoxDecoration(color: Colors.blue, shape: BoxShape.circle),
+                      child: IconButton(
+                        onPressed: () {
+                          context.read<DetailBloc>().likePost(postId);
+                        },
+                        icon: const Icon(Icons.favorite, color: Colors.red),
+                      ),
+                    )
+                  : SizedBox.shrink(),
+            )
+          : null,
     );
   }
 
