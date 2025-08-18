@@ -7,6 +7,6 @@ class LikeCommentUseCase {
 
   LikeCommentUseCase(this._postRepository);
 
-  Future<Either<Failure, bool>> execute(int postId) async =>
-      await _postRepository.likeComment(postId);
+  Future<Either<Failure, bool>> execute({required int postId, required bool isLiked}) async =>
+      await _postRepository.likeComment(postId: postId, isLiked: isLiked);
 }

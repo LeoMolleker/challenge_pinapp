@@ -22,7 +22,7 @@ class PostRepository extends IPostRepository {
   Future<Either<Failure, List<Post>>> getPosts() async {
     try {
       final posts = await _postRemoteDataSource.getPosts();
-      final likes = await _postsLocalDataSource.getLikeCounts(posts.map((post) => post.id).toList());
+      final likes = await _postsLocalDataSource.getLikes(posts.map((post) => post.id).toList());
       return Right(PostMapper.toEntityList(posts: posts, likes: likes));
     } catch (e) {
       return Left(PostFailure());
@@ -30,9 +30,9 @@ class PostRepository extends IPostRepository {
   }
 
   @override
-  Future<Either<Failure, bool>> likeComment(int postId) async {
+  Future<Either<Failure, bool>> likeComment({required int postId, required bool isLiked}) async {
     try{
-      final likeAdded = await _postsLocalDataSource.likeComment(postId);
+      final likeAdded = await _postsLocalDataSource.updateLikeStatus(postId: postId, isLiked: isLiked);
       if(!likeAdded){
         throw Exception();
       }

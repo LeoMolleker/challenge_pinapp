@@ -5,14 +5,14 @@ class Post extends Equatable {
   final int id;
   final String? title;
   final String? body;
-  final int? likes;
+  final bool? isLiked;
 
   const Post({
     required this.userId,
     required this.id,
     this.title,
     this.body,
-    required this.likes,
+    required this.isLiked,
   });
 
   Post copyWith({
@@ -20,17 +20,17 @@ class Post extends Equatable {
     int? id,
     String? title,
     String? body,
-    int? likes,
+    bool? isLiked,
   }){
     return Post(
       userId: userId ?? this.userId,
       id: id ?? this.id,
       title: title ?? this.title,
       body: body ?? this.body,
-      likes: likes ?? this.likes,
+      isLiked: isLiked ?? this.isLiked,
     );
   }
 
   @override
-  List<Object?> get props => [userId, id, title, body, likes];
+  List<Object?> get props => [userId, id, title, body, isLiked];
 }

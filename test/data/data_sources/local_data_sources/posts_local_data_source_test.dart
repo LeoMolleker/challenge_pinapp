@@ -12,14 +12,14 @@ void main() {
   late IPostsLocalDataSource postLocalDataSource;
   late MockDatabase database;
   const databaseResponse = [
-    {'id': 1, 'likes': 10},
-    {'id': 2, 'likes': 20},
-    {'id': 3, 'likes': 30},
+    {'id': 1, 'isLiked': 1},
+    {'id': 2, 'isLiked': 1},
+    {'id': 3, 'isLiked': 1},
   ];
   const likesResult = {
-    1: 10,
-    2: 20,
-    3: 30,
+    1: true,
+    2: true,
+    3: true,
   };
   setUp(() {
     database = MockDatabase();
@@ -27,14 +27,14 @@ void main() {
   });
 
   test('Transaction success', () async {
-    when(database.transaction(any)).thenAnswer((_) async {});
-    final result = await postLocalDataSource.likeComment(1);
+    when(database.insert(any, any, conflictAlgorithm: anyNamed('conflictAlgorithm'))).thenAnswer((_) async {return 1;});
+    final result = await postLocalDataSource.updateLikeStatus(postId: 1, isLiked: true);
     expect(result, true);
   });
 
   test('Transaction failed', () async {
-    when(database.transaction(any)).thenThrow(Exception());
-    final result = await postLocalDataSource.likeComment(1);
+    when(database.insert(any, any, conflictAlgorithm: anyNamed('conflictAlgorithm'))).thenThrow(Exception());
+    final result = await postLocalDataSource.updateLikeStatus(postId: 1, isLiked: true);
     expect(result, false);
   });
 
@@ -42,7 +42,7 @@ void main() {
     when(
       database.query(any, columns: anyNamed('columns'), where: anyNamed('where'), whereArgs: anyNamed('whereArgs')),
     ).thenAnswer((_) async => databaseResponse);
-    final result = await postLocalDataSource.getLikeCounts([1, 2, 3]);
+    final result = await postLocalDataSource.getLikes([1, 2, 3]);
     expect(result, likesResult);
   });
 
@@ -50,7 +50,7 @@ void main() {
     when(
       database.query(any, columns: anyNamed('columns'), where: anyNamed('where'), whereArgs: anyNamed('whereArgs')),
     ).thenThrow(Exception());
-    final result = await postLocalDataSource.getLikeCounts([1, 2, 3]);
+    final result = await postLocalDataSource.getLikes([1, 2, 3]);
     expect(result, null);
   });
 }

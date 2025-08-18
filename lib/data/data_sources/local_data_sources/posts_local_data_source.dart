@@ -8,52 +8,35 @@ class PostsLocalDataSource extends IPostsLocalDataSource {
   PostsLocalDataSource(this._database);
 
   @override
-  Future<bool> likeComment(int postId) async {
-    try{
-      await _database.transaction((txn) async {
-        final List<Map<String, dynamic>> result = await txn.query(
-          'favorites',
-          columns: ['likes'],
-          where: 'id = ?',
-          whereArgs: [postId],
-        );
-        int likes = 0;
-        if (result.isNotEmpty) {
-          likes = result.first['likes'] as int;
-        }
-        final int newLikes = likes + 1;
-        await txn.insert('favorites', {
-          'id': postId,
-          'likes': newLikes,
-        }, conflictAlgorithm: ConflictAlgorithm.replace);
-      });
+  Future<bool> updateLikeStatus({required int postId, required bool isLiked}) async {
+    try {
+      await _database.insert('favorites', {
+        'id': postId,
+        'isLiked': isLiked ? 1 : 0,
+      }, conflictAlgorithm: ConflictAlgorithm.replace);
       return true;
-    }catch(e){
+    } catch (e) {
       return false;
     }
-
   }
 
   @override
-  Future<Map<int, int>?> getLikeCounts(List<int> postIds) async {
-    try{
+  Future<Map<int, bool>?> getLikes(List<int> postIds) async {
+    try {
       if (postIds.isEmpty) {
         return {};
       }
       final ids = List.filled(postIds.length, '?').join(',');
       final List<Map<String, dynamic>> result = await _database.query(
         'favorites',
-        columns: ['id', 'likes'],
+        columns: ['id', 'isLiked'],
         where: 'id IN ($ids)',
         whereArgs: postIds,
       );
-      final likes = {
-        for (final row in result) row['id'] as int: row['likes'] as int
-      };
+      final likes = {for (final row in result) row['id'] as int: row['isLiked'] == 1 ? true : false};
       return likes;
-    }catch(e){
+    } catch (e) {
       return null;
     }
-
   }
 }

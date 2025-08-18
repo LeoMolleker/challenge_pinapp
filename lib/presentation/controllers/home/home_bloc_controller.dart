@@ -28,7 +28,7 @@ class HomeBloc extends Cubit<HomeState> {
     emit(
       state.copyWith(
         posts: Success<List<Post>>(
-          state.posts.value!.map((post) => post.id == postId ? post.copyWith(likes: post.likes! + 1) : post).toList(),
+          state.posts.value!.map((post) => post.id == postId ? post.copyWith(isLiked: post.isLiked == true ? false : true) : post).toList(),
         ),
       ),
     );

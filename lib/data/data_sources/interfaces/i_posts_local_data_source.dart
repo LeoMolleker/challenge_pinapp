@@ -1,5 +1,5 @@
 abstract class IPostsLocalDataSource {
-  Future<bool> likeComment(int postId);
+  Future<bool> updateLikeStatus({required int postId, required bool isLiked});
 
-  Future<Map<int, int>?> getLikeCounts(List<int> postIds);
+  Future<Map<int, bool>?> getLikes(List<int> postIds);
 }

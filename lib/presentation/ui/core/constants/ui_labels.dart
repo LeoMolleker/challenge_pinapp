@@ -13,6 +13,8 @@ abstract class UiLabels {
   static const loadingComments = 'Loading comments...';
   static const searchBarHint = 'Search posts';
   static const likeSuccess = 'Post liked successfully.';
+  static const unlikeSuccess = 'Post unliked successfully.';
   static const commentAppBarTitle = 'Comments';
   static const postAppBarTitle = 'Posts';
+  static const homeSnackBarText = 'Go to the post details to like/unlike this post.';
 }

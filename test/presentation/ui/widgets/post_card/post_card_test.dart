@@ -14,7 +14,7 @@ import 'post_card_test.mocks.dart';
 
 @GenerateMocks([GetPostUseCase])
 void main() {
-  const post = Post(userId: 1, id: 1, title: 'title', body: 'body', likes: 1);
+  const post = Post(userId: 1, id: 1, title: 'title', body: 'body', isLiked: true);
   final useCase = MockGetPostUseCase();
   final homeBloc = HomeBloc(useCase);
 
@@ -30,7 +30,6 @@ void main() {
       ),
     );
     expect(find.text('title'), findsOneWidget);
-    expect(find.text('1'), findsOneWidget);
     expect(find.text('body'), findsOneWidget);
     expect(find.byIcon(Icons.favorite), findsOneWidget);
   });

@@ -17,7 +17,7 @@ void main() {
   late GetPostUseCase getPostUseCase;
   late HomeBloc homeBloc;
 
-  final post = Post(userId: 1, id: 1, likes: 1);
+  final post = Post(userId: 1, id: 1, isLiked: true);
 
   setUp(() {
     getPostUseCase = MockGetPostUseCase();
@@ -76,7 +76,7 @@ void main() {
     expect: () => [
       isA<HomeState>().having((state) => state.posts, 'loading', isA<Loading<List<Post>>>()),
       isA<HomeState>().having((state) => state.posts, 'success', isA<Success<List<Post>>>()),
-      isA<HomeState>().having((state) => state.posts.value?[0].likes, '+1 like', 2)
+      isA<HomeState>().having((state) => state.posts.value?[0].isLiked, 'unlike', false)
     ],
   );
 }

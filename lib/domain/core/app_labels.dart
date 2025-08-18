@@ -5,5 +5,5 @@ abstract class AppLabels{
   static const failedCommentsTitle = 'Failed to load comments';
   static const failedCommentsDescription = 'There was an issue loading the comments. Pleas check your internet connection and try again.';
 
-  static const likeError = 'Something went wrong while liking the post, please try again.';
+  static const likeError = 'Something went wrong, please try again.';
 }

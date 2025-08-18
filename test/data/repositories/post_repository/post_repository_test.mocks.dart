@@ -54,18 +54,24 @@ class MockIPostsLocalDataSource extends _i1.Mock
   }
 
   @override
-  _i3.Future<bool> likeComment(int? postId) =>
+  _i3.Future<bool> updateLikeStatus({
+    required int? postId,
+    required bool? isLiked,
+  }) =>
       (super.noSuchMethod(
-            Invocation.method(#likeComment, [postId]),
+            Invocation.method(#updateLikeStatus, [], {
+              #postId: postId,
+              #isLiked: isLiked,
+            }),
             returnValue: _i3.Future<bool>.value(false),
           )
           as _i3.Future<bool>);
 
   @override
-  _i3.Future<Map<int, int>?> getLikeCounts(List<int>? postIds) =>
+  _i3.Future<Map<int, bool>?> getLikes(List<int>? postIds) =>
       (super.noSuchMethod(
-            Invocation.method(#getLikeCounts, [postIds]),
-            returnValue: _i3.Future<Map<int, int>?>.value(),
+            Invocation.method(#getLikes, [postIds]),
+            returnValue: _i3.Future<Map<int, bool>?>.value(),
           )
-          as _i3.Future<Map<int, int>?>);
+          as _i3.Future<Map<int, bool>?>);
 }

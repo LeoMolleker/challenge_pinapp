@@ -31,7 +31,7 @@ void main() {
     when(getPostCommentsUseCase.execute(any)).thenAnswer((_) async => dummy);
     await tester.pumpWidget(
       MaterialApp(
-        home: BlocProvider.value(value: detailBloc..getPostComments(1), child: const DetailPage(postId: 1, canLike: true,)),
+        home: BlocProvider.value(value: detailBloc..getPostComments(1), child: const DetailPage(postId: 1, isLiked: true,)),
       ),
     );
     await tester.pump();
@@ -42,7 +42,7 @@ void main() {
     when(getPostCommentsUseCase.execute(any)).thenAnswer((_) async => emptyDummy);
     await tester.pumpWidget(
       MaterialApp(
-        home: BlocProvider.value(value: detailBloc..getPostComments(1), child: const DetailPage(postId: 1, canLike: true,)),
+        home: BlocProvider.value(value: detailBloc..getPostComments(1), child: const DetailPage(postId: 1, isLiked: true,)),
       ),
     );
     await tester.pump();
@@ -53,7 +53,7 @@ void main() {
     when(getPostCommentsUseCase.execute(any)).thenAnswer((_) async => errorDummy);
     await tester.pumpWidget(
       MaterialApp(
-        home: BlocProvider.value(value: detailBloc, child: const DetailPage(postId: 1, canLike: true,)),
+        home: BlocProvider.value(value: detailBloc, child: const DetailPage(postId: 1, isLiked: true,)),
       ),
     );
     await tester.pump();

@@ -61,9 +61,9 @@ void main() {
     setUp: () {
       final dummy = Right<Failure, bool>(true);
       provideDummy<Either<Failure, bool>>((dummy));
-      when(likeCommentUseCase.execute(any)).thenAnswer((_) async => dummy);
+      when(likeCommentUseCase.execute(postId: anyNamed('postId'), isLiked: anyNamed('isLiked'))).thenAnswer((_) async => dummy);
     },
-    act: (bloc) => bloc.likePost(1),
+    act: (bloc) => bloc.likePost(postId: 1, isLiked: true),
     expect: () => [
       isA<DetailState>().having((state) => state.like, 'loading', isA<Loading<bool>>()),
       isA<DetailState>().having((state) => state.like, 'success', isA<Success<bool>>()),
@@ -76,9 +76,9 @@ void main() {
     setUp: () {
       final dummy = Left<Failure, bool>(LikeFailure());
       provideDummy<Either<Failure, bool>>((dummy));
-      when(likeCommentUseCase.execute(any)).thenAnswer((_) async => dummy);
+      when(likeCommentUseCase.execute(postId: anyNamed('postId'), isLiked: anyNamed('isLiked'))).thenAnswer((_) async => dummy);
     },
-    act: (bloc) => bloc.likePost(1),
+    act: (bloc) => bloc.likePost(postId: 1, isLiked: true),
     expect: () => [
       isA<DetailState>().having((state) => state.like, 'loading', isA<Loading<bool>>()),
       isA<DetailState>().having((state) => state.like, 'error', isA<Error<bool>>()),

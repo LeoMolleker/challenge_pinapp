@@ -23,8 +23,8 @@ void main(){
   ];
 
   final likes = {
-    1: 10,
-    2: 20,
+    1: true,
+    2: true,
   };
 
   setUp((){
@@ -35,17 +35,17 @@ void main(){
 
   test('Get posts', () async {
     when(postRemoteDataSource.getPosts()).thenAnswer((_) async => postsDto);
-    when(postsLocalDataSource.getLikeCounts(any)).thenAnswer((_) async => likes);
+    when(postsLocalDataSource.getLikes(any)).thenAnswer((_) async => likes);
     final result = await postRepository.getPosts();
     expect(result.isRight, true);
     result.fold(ifLeft: (l) => expect(l, isA<PostFailure>()), ifRight: (r) {
       expect(r.length, 2);
       expect(r[0].id, 1);
-      expect(r[0].likes, 10);
+      expect(r[0].isLiked, true);
       expect(r[0].title, postsDto[0].title);
       expect(r[0].body, postsDto[0].body);
       expect(r[1].id, 2);
-      expect(r[1].likes, 20);
+      expect(r[1].isLiked, true);
       expect(r[1].title, postsDto[1].title);
       expect(r[1].body, postsDto[1].body);
     });
@@ -60,15 +60,15 @@ void main(){
   });
 
   test('like success', () async {
-    when(postsLocalDataSource.likeComment(any)).thenAnswer((_) async => true);
-    final result = await postRepository.likeComment(1);
+    when(postsLocalDataSource.updateLikeStatus(postId: anyNamed('postId'), isLiked: anyNamed('isLiked'))).thenAnswer((_) async => true);
+    final result = await postRepository.likeComment(postId: 1, isLiked: true);
     expect(result.isRight, true);
 
   });
 
   test('like failure', () async {
-    when(postsLocalDataSource.likeComment(any)).thenAnswer((_) async => false);
-    final result = await postRepository.likeComment(1);
+    when(postsLocalDataSource.updateLikeStatus(postId: anyNamed('postId'), isLiked: anyNamed('isLiked'))).thenAnswer((_) async => false);
+    final result = await postRepository.likeComment(postId: 1, isLiked: true);
     expect(result.isLeft, true);
     result.fold(ifLeft: (l) => expect(l, isA<LikeFailure>()), ifRight: (r) => expect(r, isA<bool>()));
   });

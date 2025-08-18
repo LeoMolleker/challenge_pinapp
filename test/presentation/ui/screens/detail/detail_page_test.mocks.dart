@@ -63,13 +63,22 @@ class MockLikeCommentUseCase extends _i1.Mock
   }
 
   @override
-  _i3.Future<_i4.Either<_i5.Failure, bool>> execute(int? postId) =>
+  _i3.Future<_i4.Either<_i5.Failure, bool>> execute({
+    required int? postId,
+    required bool? isLiked,
+  }) =>
       (super.noSuchMethod(
-            Invocation.method(#execute, [postId]),
+            Invocation.method(#execute, [], {
+              #postId: postId,
+              #isLiked: isLiked,
+            }),
             returnValue: _i3.Future<_i4.Either<_i5.Failure, bool>>.value(
               _i7.dummyValue<_i4.Either<_i5.Failure, bool>>(
                 this,
-                Invocation.method(#execute, [postId]),
+                Invocation.method(#execute, [], {
+                  #postId: postId,
+                  #isLiked: isLiked,
+                }),
               ),
             ),
           )

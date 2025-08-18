@@ -14,11 +14,22 @@ import '../../controllers/detail/detail_state.dart';
 import '../core/constants/app_dimensions.dart';
 import '../core/constants/ui_labels.dart';
 
-class DetailPage extends StatelessWidget {
-  const DetailPage({super.key, required this.postId, required this.canLike});
+class DetailPage extends StatefulWidget {
+  const DetailPage({super.key, required this.postId, required this.isLiked});
 
   final int postId;
-  final bool canLike;
+  final bool? isLiked;
+
+  @override
+  State<DetailPage> createState() => _DetailPageState();
+}
+
+class _DetailPageState extends State<DetailPage> {
+  @override
+  void initState() {
+    context.read<DetailBloc>().updateIsLiked(widget.isLiked);
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -32,8 +43,10 @@ class DetailPage extends StatelessWidget {
             (current.like.isSuccess || current.like.isError) && previous.like != current.like,
         listener: (BuildContext context, DetailState state) {
           if (state.like.isSuccess) {
-            _showDialog(context: context, text: UiLabels.likeSuccess, backgroundColor: Colors.green);
-            context.read<HomeBloc>().updatePostsLikes(postId);
+            context.read<DetailBloc>().updateIsLiked();
+            _showDialog(context: context, text: context.read<DetailBloc>().state.isLiked! ? UiLabels.likeSuccess : UiLabels.unlikeSuccess, backgroundColor: Colors.green);
+
+            context.read<HomeBloc>().updatePostsLikes(widget.postId);
             return;
           }
           _showDialog(context: context, text: state.like.error!.title, backgroundColor: Colors.red);
@@ -69,7 +82,7 @@ class DetailPage extends StatelessWidget {
           },
         ),
       ),
-      floatingActionButton: canLike
+      floatingActionButton: widget.isLiked != null
           ? BlocBuilder<DetailBloc, DetailState>(
               buildWhen: (previous, current) => previous.comments != current.comments,
               builder: (context, state) => (state.comments.isSuccess)
@@ -77,9 +90,17 @@ class DetailPage extends StatelessWidget {
                       decoration: BoxDecoration(color: Colors.blue, shape: BoxShape.circle),
                       child: IconButton(
                         onPressed: () {
-                          context.read<DetailBloc>().likePost(postId);
+                          context.read<DetailBloc>().likePost(
+                            postId: widget.postId,
+                            isLiked: context.read<DetailBloc>().state.isLiked!,
+                          );
                         },
-                        icon: const Icon(Icons.favorite, color: Colors.red),
+                        icon: BlocBuilder<DetailBloc, DetailState>(
+                          builder: (context, state) => Icon(
+                            state.isLiked == true ? Icons.favorite : Icons.favorite_border_outlined,
+                            color: Colors.red,
+                          ),
+                        ),
                       ),
                     )
                   : SizedBox.shrink(),

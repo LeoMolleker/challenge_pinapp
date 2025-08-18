@@ -18,7 +18,7 @@ import '../../../controllers/home_bloc_controller/home_bloc_controller_test.mock
 void main() {
   final MockGetPostUseCase useCase = MockGetPostUseCase();
   final HomeBloc homeBloc = HomeBloc(useCase);
-  final post = Post(userId: 1, id: 1, title: 'title', body: 'body', likes: 1);
+  final post = Post(userId: 1, id: 1, title: 'title', body: 'body', isLiked: true);
   final dummy = Right<Failure, List<Post>>([post]);
   final emptyDummy = Right<Failure, List<Post>>([]);
   final errorDummy = Left<Failure, List<Post>>(PostFailure());

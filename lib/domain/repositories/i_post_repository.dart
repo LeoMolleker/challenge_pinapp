@@ -7,5 +7,5 @@ import '../entities/post.dart';
 abstract class IPostRepository{
   Future<Either<Failure, List<Post>>> getPosts();
 
-  Future<Either<Failure, bool>> likeComment(int postId);
+  Future<Either<Failure, bool>> likeComment({required int postId, required bool isLiked});
 }
