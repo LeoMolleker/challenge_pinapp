@@ -20,4 +20,14 @@ Esta página támbien ofrece la posibilidad de poder dar un "like" al post, el c
 * **sqflite**
   * Librería para el manejo de bases de datos, utilizado para la implementación de "likes" para almacenarlos en una fuente de datos local y estructurada
 * **mockito y bloc_test**
-  * Librerías para pruebas unitarias. Facilitan la creación de mocks y el testeo de los cubits. 
+  * Librerías para pruebas unitarias. Facilitan la creación de mocks y el testeo de los cubits.
+ 
+ ## Video funcionamiento de la app
+https://github.com/user-attachments/assets/d7bab3af-b95b-46dd-981e-37d5789bab91
+
+## Imagenes adicionales
+<img width="1080" height="2424" alt="Screenshot_1755478028" src="https://github.com/user-attachments/assets/bdaba327-3eb8-41ff-a878-3ffa32db42dc" />
+<img width="1080" height="2424" alt="Screenshot_1755458122" src="https://github.com/user-attachments/assets/cd94fb2d-6004-43d5-8599-122c02f16e75" />
+<img width="1080" height="2424" alt="Screenshot_1755458107" src="https://github.com/user-attachments/assets/98096df6-559b-4f05-9747-bd0233d30be7" />
+<img width="1080" height="2424" alt="Screenshot_1755457707" src="https://github.com/user-attachments/assets/4ac0d645-17a3-4fcc-9e7b-f77a830d3389" />
+<img width="1080" height="2424" alt="Screenshot_1755457689" src="https://github.com/user-attachments/assets/34fd80ef-88ef-4253-af07-1a2f0f860181" />
